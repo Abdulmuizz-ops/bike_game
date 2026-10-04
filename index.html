@@ -166,10 +166,9 @@ li em{
 }
 
 
-/* ===============================
-   PREMIUM DEVELOPER INTRO
-   TWO COLOURS ONLY
-   =============================== */
+/* ================================
+   PREMIUM OPENING CREDIT
+================================ */
 
 #credit{
   position:fixed;
@@ -179,87 +178,78 @@ li em{
   justify-content:center;
 
   background:#0a0f1c;
-
   color:#f5f1e8;
 
   font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
-
   text-align:center;
 
   z-index:9999;
 
   opacity:1;
+  visibility:visible;
 
-  transition:opacity 1s ease;
+  transition:
+    opacity .9s ease,
+    visibility 0s linear 0s;
 }
 
 .credit-content{
   animation:
-    creditIn 1.5s cubic-bezier(.16,1,.3,1)
-    forwards;
+    creditIn 1.25s cubic-bezier(.16,1,.3,1) both;
 }
 
 .credit-small{
   font-size:12px;
   font-weight:500;
   letter-spacing:5px;
-
   color:#f5f1e8;
-
   margin-bottom:18px;
-
   text-transform:uppercase;
 }
 
 .credit-line{
   width:55px;
   height:1px;
-
   margin:0 auto 20px;
 
   background:#c6a966;
 
   animation:
-    lineIn 1.2s ease forwards;
+    lineIn 1s ease .35s both;
 }
 
 .credit-name{
   font-size:clamp(45px,8vw,82px);
-
   font-weight:650;
-
   letter-spacing:-2px;
 
-  background:linear-gradient(
-    90deg,
-    #f5f1e8 0%,
-    #f5f1e8 45%,
-    #c6a966 55%,
-    #c6a966 100%
-  );
+  background:
+    linear-gradient(
+      90deg,
+      #f5f1e8 0%,
+      #f5f1e8 45%,
+      #c6a966 55%,
+      #c6a966 100%
+    );
 
   background-size:220% 100%;
-
   background-position:100% 50%;
 
   -webkit-background-clip:text;
   background-clip:text;
-
   color:transparent;
 
   animation:
-    nameShine 5s ease-in-out infinite;
+    nameShine 4s ease-in-out 1.2s 1;
 }
 
 .credit-sub{
   margin-top:20px;
 
   font-size:9px;
-
   letter-spacing:4px;
 
   color:#f5f1e8;
-
   opacity:.45;
 }
 
@@ -267,13 +257,17 @@ li em{
 
   from{
     opacity:0;
-    transform:translateY(20px) scale(.97);
-    filter:blur(8px);
+    transform:
+      translateY(18px)
+      scale(.98);
+    filter:blur(6px);
   }
 
   to{
     opacity:1;
-    transform:translateY(0) scale(1);
+    transform:
+      translateY(0)
+      scale(1);
     filter:blur(0);
   }
 
@@ -295,17 +289,17 @@ li em{
 
 @keyframes nameShine{
 
-  0%,100%{
+  0%{
     background-position:100% 50%;
   }
 
-  50%{
+  100%{
     background-position:0% 50%;
   }
 
 }
-</style>
 
+</style>
 </head>
 
 <body>
@@ -314,9 +308,7 @@ li em{
 
 <div id="ui"></div>
 
-
-<!-- PREMIUM TWO-COLOUR DEVELOPER INTRO -->
-
+<!-- PREMIUM OPENING -->
 <div id="credit">
 
   <div class="credit-content">
@@ -343,7 +335,6 @@ li em{
 
 </div>
 
-
 <script>
 'use strict';
 
@@ -356,7 +347,7 @@ let W,H;
 
 const rs=()=>{
   W=cv.width=innerWidth;
-  H=cv.height=innerHeight
+  H=cv.height=innerHeight;
 };
 
 onresize=rs;
@@ -366,9 +357,9 @@ const SL=200,
 RW=2000,
 CH=1000,
 DD=250,
-MAXV=11000,
+MAXV=11000;
 
-COLS=[
+const COLS=[
   '#ef4444',
   '#f59e0b',
   '#22c55e',
@@ -389,6 +380,10 @@ const lerp=(a,b,t)=>
 const ease=(a,b,p)=>
   a+(b-a)*(.5-Math.cos(p*Math.PI)/2);
 
+
+/* ================================
+   BIOME DATA
+================================ */
 
 const B={
 
@@ -434,7 +429,6 @@ coast:{
 
 };
 
-
 const MAPS=[
 
 {
@@ -458,7 +452,9 @@ const MAPS=[
 ];
 
 
-// ---- prop textures ----
+/* ================================
+   PROP TEXTURES
+================================ */
 
 const SZ={
   pine:[1000,2600],
@@ -475,8 +471,9 @@ const TX={};
 
 for(const t in SZ){
 
-  const [w,h]=SZ[t],
-  c=document.createElement('canvas');
+  const [w,h]=SZ[t];
+
+  const c=document.createElement('canvas');
 
   const Hh=Math.round(100*h/w);
 
@@ -493,14 +490,14 @@ for(const t in SZ){
     g.moveTo(50,y);
     g.lineTo(50+hw,y+hh);
     g.lineTo(50-hw,y+hh);
-    g.fill()
+    g.fill();
   };
 
   const el=(x,y,rx,ry,col)=>{
     g.fillStyle=col;
     g.beginPath();
     g.ellipse(x,y,rx,ry,0,0,7);
-    g.fill()
+    g.fill();
   };
 
   const ln=(col,lw,pts)=>{
@@ -516,19 +513,14 @@ for(const t in SZ){
       :g.moveTo(p[0],p[1]*Hh)
     );
 
-    g.stroke()
+    g.stroke();
   };
-
 
   if(t=='pine'||t=='spine'){
 
     const s=+(t=='spine');
 
-    ln(
-      '#5b3a1e',
-      10,
-      [[50,.8],[50,1]]
-    );
+    ln('#5b3a1e',10,[[50,.8],[50,1]]);
 
     [
       ['#14532d','#e8f1f8'],
@@ -542,108 +534,68 @@ for(const t in SZ){
         c[s]
       )
     );
-  }
 
+  }
 
   if(t=='oak'){
 
-    ln(
-      '#6b4423',
-      12,
-      [[50,.5],[50,1]]
-    );
+    ln('#6b4423',12,[[50,.5],[50,1]]);
 
     el(50,Hh*.3,48,Hh*.28,'#2f8f3a');
     el(34,Hh*.4,28,Hh*.18,'#3aa64a');
     el(68,Hh*.36,28,Hh*.18,'#278034');
-  }
 
+  }
 
   if(t=='bush'){
 
     el(50,Hh*.62,47,Hh*.36,'#2f8f3a');
     el(34,Hh*.7,28,Hh*.26,'#3aa64a');
-  }
 
+  }
 
   if(t=='cactus'){
 
-    ln(
-      '#2f8a4a',
-      16,
-      [[50,.04],[50,1]]
-    );
+    ln('#2f8a4a',16,[[50,.04],[50,1]]);
+    ln('#2f8a4a',12,[[50,.62],[22,.62],[22,.36]]);
+    ln('#2f8a4a',12,[[50,.5],[78,.5],[78,.26]]);
 
-    ln(
-      '#2f8a4a',
-      12,
-      [[50,.62],[22,.62],[22,.36]]
-    );
-
-    ln(
-      '#2f8a4a',
-      12,
-      [[50,.5],[78,.5],[78,.26]]
-    );
   }
-
 
   if(t=='dead'){
 
-    ln(
-      '#6b5036',
-      8,
-      [[50,1],[50,.4],[30,.2]]
-    );
+    ln('#6b5036',8,[[50,1],[50,.4],[30,.2]]);
+    ln('#6b5036',6,[[50,.55],[78,.35]]);
+    ln('#6b5036',5,[[50,.4],[62,.15]]);
 
-    ln(
-      '#6b5036',
-      6,
-      [[50,.55],[78,.35]]
-    );
-
-    ln(
-      '#6b5036',
-      5,
-      [[50,.4],[62,.15]]
-    );
   }
-
 
   if(t=='rock'){
 
     g.fillStyle='#7b7f8a';
 
     g.beginPath();
-
     g.moveTo(5,Hh);
     g.lineTo(18,Hh*.35);
     g.lineTo(45,Hh*.08);
     g.lineTo(78,Hh*.3);
     g.lineTo(96,Hh);
-
     g.fill();
 
     g.fillStyle='#a1a6b3';
 
     g.beginPath();
-
     g.moveTo(45,Hh*.08);
     g.lineTo(78,Hh*.3);
     g.lineTo(60,Hh);
     g.lineTo(30,Hh*.5);
-
     g.fill();
-  }
 
+  }
 
   if(t=='palm'){
 
-    ln(
-      '#7a5230',
-      8,
-      [[44,1],[50,.5],[58,.2]]
-    );
+    ln('#7a5230',8,[[44,1],[50,.5],[58,.2]]);
 
     for(let i=0;i<6;i++){
 
@@ -664,9 +616,10 @@ for(const t in SZ){
           ]
         ]
       );
-    }
-  }
 
+    }
+
+  }
 
   g.globalCompositeOperation='source-atop';
 
@@ -710,17 +663,18 @@ for(const t in SZ){
   g.fillStyle=lg;
   g.fillRect(0,0,100,Hh);
 
-  TX[t]=c
+  TX[t]=c;
 }
 
 
-// ---- track ----
+/* ================================
+   TRACK
+================================ */
 
 let T;
 
 const seg=z=>
   T.sg[Math.floor(z/SL)%T.sg.length];
-
 
 function mulb(a){
 
@@ -730,40 +684,25 @@ function mulb(a){
 
     a=a+0x6D2B79F5|0;
 
-    let t=Math.imul(
-      a^a>>>15,
-      1|a
-    );
+    let t=Math.imul(a^a>>>15,1|a);
 
-    t=t+
-      Math.imul(
-        t^t>>>7,
-        61|t
-      )^t;
+    t=t+Math.imul(t^t>>>7,61|t)^t;
 
-    return(
-      (t^t>>>14)>>>0
-    )/4294967296
-  }
+    return((t^t>>>14)>>>0)/4294967296;
+
+  };
+
 }
-
 
 function build(mi){
 
   const map=MAPS[mi],
   rng=mulb(map.s),
   sg=[],
-
   rnd=(a,b)=>
-    Math.floor(
-      a+rng()*(b-a+1)
-    ),
-
+    Math.floor(a+rng()*(b-a+1)),
   ly=()=>
-    sg.length
-      ?sg[sg.length-1].y2
-      :0;
-
+    sg.length?sg[sg.length-1].y2:0;
 
   const P=(y,z)=>({
     wy:y,
@@ -777,7 +716,6 @@ function build(mi){
     sw:0
   });
 
-
   const road=(e,h,l,c,y)=>{
 
     const sy=ly(),
@@ -786,16 +724,11 @@ function build(mi){
 
     for(let n=0;n<t;n++){
 
-      const k=
-        n<e
-          ?ease(0,1,n/e)
-          :n<e+h
-            ?1
-            :ease(
-              1,
-              0,
-              (n-e-h)/l
-            );
+      const k=n<e
+        ?ease(0,1,n/e)
+        :n<e+h
+        ?1
+        :ease(1,0,(n-e-h)/l);
 
       const i=sg.length,
       y1=ly(),
@@ -814,9 +747,10 @@ function build(mi){
         pr:[],
         clip:-1
       });
-    }
-  };
 
+    }
+
+  };
 
   road(10,20,10,0,0);
 
@@ -832,15 +766,7 @@ function build(mi){
 
       const r=rng(),
       y=ly()/SL,
-      d=
-        y>38
-          ?-1
-          :y<4
-            ?1
-            :rng()<.5
-              ?1
-              :-1;
-
+      d=y>38?-1:y<4?1:rng()<.5?1:-1;
 
       if(r<.2)
 
@@ -852,7 +778,6 @@ function build(mi){
           0
         );
 
-
       else if(r<.5)
 
         road(
@@ -863,14 +788,10 @@ function build(mi){
             ?(rng()<.5?-2:2)
             :0,
           d*rnd(
-            bk=='snow'
-              ?20
-              :bk=='desert'
-                ?25
-                :45
+            bk=='snow'?20:10,
+            bk=='desert'?25:45
           )
         );
-
 
       else
 
@@ -885,35 +806,22 @@ function build(mi){
             ?d*rnd(5,15)
             :0
         );
+
     }
+
   });
 
-
-  road(
-    40,
-    50,
-    40,
-    0,
-    -ly()/SL
-  );
+  road(40,50,40,0,-ly()/SL);
 
   const fin=sg.length+10;
 
-  road(
-    30,
-    60,
-    30,
-    0,
-    0
-  );
-
+  road(30,60,30,0,0);
 
   let zi=0,
   a=0,
   x=0,
   y=0,
   pts=[];
-
 
   sg.forEach(s=>{
 
@@ -927,8 +835,7 @@ function build(mi){
 
     const A=B[map.z[zi]];
 
-    let Bb=A,
-    t=0;
+    let Bb=A,t=0;
 
     if(
       zi+1<zs.length &&
@@ -938,12 +845,9 @@ function build(mi){
       Bb=B[map.z[zi+1]];
 
       t=
-        (
-          s.i-
-          (zs[zi+1]-60)
-        )/60;
-    }
+        (s.i-(zs[zi+1]-60))/60;
 
+    }
 
     s.a=A;
     s.b=Bb;
@@ -958,7 +862,6 @@ function build(mi){
         )
       );
 
-
     s.g=[
       m('g',0),
       m('g',1)
@@ -969,15 +872,13 @@ function build(mi){
       m('r',1)
     ];
 
-    s.fg=
-      rgb(
-        mix(
-          A.fog,
-          Bb.fog,
-          t
-        )
-      );
-
+    s.fg=rgb(
+      mix(
+        A.fog,
+        Bb.fog,
+        t
+      )
+    );
 
     if(
       s.i>8 &&
@@ -991,78 +892,48 @@ function build(mi){
         if(rng()<.75)
 
           s.pr.push({
-            t:
-              A.p[
-                rnd(
-                  0,
-                  A.p.length-1
-                )
-              ],
-            o:
-              sd*
-              (
-                1.35+
-                rng()*4
-              )
+            t:A.p[
+              rnd(0,A.p.length-1)
+            ],
+            o:sd*(1.35+rng()*4)
           });
 
-
     a+=s.c*.0025;
-
     x+=Math.cos(a);
     y+=Math.sin(a);
 
     if(s.i%8==0)
       pts.push([x,y,zi]);
-  });
 
+  });
 
   zs.forEach((z,i)=>
     sg[z].pr.push({
       t:'arch',
-      txt:
-        B[
-          map.z[i]
-        ].n.toUpperCase()
+      txt:B[map.z[i]].n.toUpperCase()
     })
   );
-
 
   sg[20].pr.push({
     t:'arch',
     txt:'START'
   });
 
-
   sg[fin].pr.push({
     t:'arch',
     txt:'FINISH'
   });
 
-
   [20,21,fin,fin+1]
     .forEach(i=>sg[i].k=1);
 
+  const x0=Math.min(...pts.map(p=>p[0])),
+  y0=Math.min(...pts.map(p=>p[1])),
 
-  const x0=Math.min(
-    ...pts.map(p=>p[0])
+  k=1/Math.max(
+    Math.max(...pts.map(p=>p[0]))-x0,
+    Math.max(...pts.map(p=>p[1]))-y0
   );
-
-  const y0=Math.min(
-    ...pts.map(p=>p[1])
-  );
-
-  const k=
-    1/
-    Math.max(
-      Math.max(
-        ...pts.map(p=>p[0])
-      )-x0,
-      Math.max(
-        ...pts.map(p=>p[1])
-      )-y0
-    );
-
 
   pts=pts.map(p=>[
     (p[0]-x0)*k,
@@ -1070,10 +941,7 @@ function build(mi){
     p[2]
   ]);
 
-
-  const img=document.createElement(
-    'canvas'
-  );
+  const img=document.createElement('canvas');
 
   img.width=img.height=170;
 
@@ -1081,9 +949,7 @@ function build(mi){
   sc=170*.9,
   o=8.5;
 
-  g.lineCap=
-    g.lineJoin='round';
-
+  g.lineCap=g.lineJoin='round';
 
   [
     ['#000a',10],
@@ -1111,23 +977,20 @@ function build(mi){
       g.beginPath();
 
       g.moveTo(
-        o+
-        pts[i-1][0]*sc,
-        o+
-        pts[i-1][1]*sc
+        o+pts[i-1][0]*sc,
+        o+pts[i-1][1]*sc
       );
 
       g.lineTo(
-        o+
-        pts[i][0]*sc,
-        o+
-        pts[i][1]*sc
+        o+pts[i][0]*sc,
+        o+pts[i][1]*sc
       );
 
       g.stroke();
-    }
-  });
 
+    }
+
+  });
 
   return{
     sg,
@@ -1137,11 +1000,14 @@ function build(mi){
     FD:fin*SL,
     mp:pts,
     img
-  }
+  };
+
 }
 
 
-// ---- state ----
+/* ================================
+   STATE
+================================ */
 
 const K={};
 
@@ -1159,7 +1025,6 @@ const KM={
   Space:'b'
 };
 
-
 onkeydown=e=>{
 
   if(KM[e.code]){
@@ -1167,20 +1032,20 @@ onkeydown=e=>{
     K[KM[e.code]]=1;
 
     if(
-      document.activeElement.tagName
-      !='INPUT'
+      document.activeElement.tagName!='INPUT'
     )
-      e.preventDefault()
-  }
-};
+      e.preventDefault();
 
+  }
+
+};
 
 onkeyup=e=>{
 
   if(KM[e.code])
-    K[KM[e.code]]=0
-};
+    K[KM[e.code]]=0;
 
+};
 
 const tc=e=>{
 
@@ -1196,15 +1061,13 @@ const tc=e=>{
 
   K.b=e.touches.length==2;
 
-  for(
-    const t of e.touches
-  )
-    t.clientX<
-    innerWidth/2
+  for(const t of e.touches)
+
+    t.clientX<innerWidth/2
       ?K.l=1
       :K.r=1;
-};
 
+};
 
 [
   'touchstart',
@@ -1218,7 +1081,6 @@ const tc=e=>{
   )
 );
 
-
 const ls=(k,v)=>{
 
   try{
@@ -1226,11 +1088,11 @@ const ls=(k,v)=>{
     if(v!==undefined)
       localStorage[k]=v;
 
-    return localStorage[k]
+    return localStorage[k];
 
   }catch{}
-};
 
+};
 
 let S='menu',
 mapI=0,
@@ -1249,10 +1111,9 @@ t0=0,
 goT=0,
 meFin=0,
 skyX=0,
-camD=
-  1/Math.tan(
-    50*Math.PI/180
-  ),
+camD=1/Math.tan(
+  50*Math.PI/180
+),
 PZ=CH*camD,
 bf=0,
 zb=0,
@@ -1261,72 +1122,82 @@ lz=-1,
 ns=0,
 rt=0;
 
-
 const me={
-
   id:'h',
-
   name:
     ls('nm') ||
     'Rider'+
-    (10+
-    Math.random()*89|0),
-
-  col:
-    +ls('col')||0,
-
-  d:
-    15*SL,
-
+    (10+Math.random()*89|0),
+  col:+ls('col')||0,
+  d:15*SL,
   x:0,
   v:0,
   l:0,
   n:.5
-
 };
-
 
 T=build(0);
 
 
-// =====================================
-// PREMIUM CREDIT TIMING
-// =====================================
+/* ================================
+   OPENING ANIMATION
+================================ */
 
 const credit=$('#credit');
 
-setTimeout(()=>{
+function finishCredit(){
+
+  if(
+    !credit ||
+    credit.dataset.done==='1'
+  )
+    return;
+
+  credit.dataset.done='1';
 
   credit.style.opacity='0';
+  credit.style.visibility='hidden';
 
   setTimeout(()=>{
 
-    credit.remove();
+    if(
+      credit &&
+      credit.parentNode
+    )
+      credit.remove();
 
     menu();
 
-  },800);
+  },950);
 
-},2200);
+}
+
+setTimeout(
+  finishCredit,
+  2800
+);
 
 
-// ---- UI ----
+/* ================================
+   UI
+================================ */
 
 const show=h=>{
 
   ui.innerHTML=h;
 
   ui.style.display=
-    h?'flex':'none'
-};
+    h?'flex':'none';
 
+};
 
 const msg=t=>{
 
   if(S!='menu')
     menu();
 
-  $('#er').textContent=t
+  $('#er').textContent=t;
+
 };
 
 
@@ -1338,14 +1209,10 @@ function menu(){
     peer.destroy();
 
   peer=null;
-
   conns=[];
-
   hc=null;
 
-  solo=
-    host=false;
-
+  solo=host=false;
 
   show(`
     <div class=box>
@@ -1366,17 +1233,18 @@ function menu(){
       <div id=cl></div>
 
       <select id=mp>
-        ${
-          MAPS.map(
-            (m,i)=>
-              `<option value=${i}>
-                ${m.n}
-              </option>`
-          ).join('')
-        }
+        ${MAPS.map(
+          (m,i)=>
+          `<option value=${i}>
+            ${m.n}
+          </option>`
+        ).join('')}
       </select>
 
-      <button class=p id=b1>
+      <button
+        class=p
+        id=b1
+      >
         Solo ride (vs bots)
       </button>
 
@@ -1404,80 +1272,67 @@ function menu(){
         Up/W gas -
         Left/Right or A/D steer -
         Down/S brake -
-        Shift/Space nitro
-        <br>
-        Touch: hold left/right half
-        to ride, 2 fingers = nitro
+        Shift/Space nitro<br>
+        Touch: hold left/right half to ride,
+        2 fingers = nitro
       </p>
 
     </div>
   `);
 
-
   $('#nm').value=me.name;
-
 
   $('#nm').oninput=e=>{
 
     me.name=
       e.target.value
       .trim()
-      .slice(0,12)
-      ||'Rider';
+      .slice(0,12) ||
+      'Rider';
 
-    ls('nm',me.name)
+    ls('nm',me.name);
+
   };
-
 
   const cl=$('#cl');
 
   cl.innerHTML=
     COLS.map(
       (c,i)=>
-        `<i
-          style="background:${c}"
-          class="${
-            i==me.col?'on':''
-          }">
-        </i>`
+      `<i
+        style="background:${c}"
+        class="${i==me.col?'on':''}"
+      ></i>`
     ).join('');
 
+  [...cl.children].forEach(
+    (el,i)=>
+      el.onclick=()=>{
 
-  [...cl.children]
-    .forEach(
-      (el,i)=>
+        me.col=i;
 
-        el.onclick=()=>{
+        ls('col',i);
 
-          me.col=i;
+        [
+          ...cl.children
+        ].forEach(
+          x=>x.classList.remove('on')
+        );
 
-          ls('col',i);
+        el.classList.add('on');
 
-          [
-            ...cl.children
-          ]
-          .forEach(
-            x=>
-              x.classList
-               .remove('on')
-          );
-
-          el.classList
-            .add('on')
-        }
-    );
-
+      }
+  );
 
   $('#mp').value=mapI;
 
   $('#mp').onchange=e=>{
 
-    mapI=
-      +e.target.value;
+    mapI=+e.target.value;
 
-    T=build(mapI)
+    T=build(mapI);
+
   };
-
 
   const q=
     new URLSearchParams(
@@ -1486,9 +1341,7 @@ function menu(){
 
   if(q)
     $('#cd').value=
-      q.toUpperCase()
-       .slice(0,5);
-
+      q.toUpperCase().slice(0,5);
 
   $('#b1').onclick=()=>{
 
@@ -1504,9 +1357,9 @@ function menu(){
       }
     ];
 
-    startRace()
-  };
+    startRace();
 
+  };
 
   $('#b2').onclick=()=>{
 
@@ -1517,15 +1370,14 @@ function menu(){
         'Online play needs internet (PeerJS failed to load).'
       );
 
-    hostRoom()
-  };
+    hostRoom();
 
+  };
 
   $('#b3').onclick=()=>{
 
     const c=
-      $('#cd')
-      .value
+      $('#cd').value
       .trim()
       .toUpperCase();
 
@@ -1541,12 +1393,16 @@ function menu(){
         'Online play needs internet (PeerJS failed to load).'
       );
 
-    join(c)
-  }
+    join(c);
+
+  };
+
 }
 
 
-// ---- networking ----
+/* ================================
+   NETWORKING
+================================ */
 
 const bc=m=>
   conns.forEach(
@@ -1554,20 +1410,15 @@ const bc=m=>
       c.open&&c.send(m)
   );
 
-
 const rcode=()=>
   [
     ...Array(5)
   ]
-  .map(
-    ()=>
-      'ABCDEFGHJKMNPQRSTUVWXYZ23456789'
-      [
-        Math.random()*31|0
-      ]
+  .map(()=>
+    'ABCDEFGHJKMNPQRSTUVWXYZ23456789'
+    [Math.random()*31|0]
   )
   .join('');
-
 
 function hostRoom(){
 
@@ -1585,41 +1436,31 @@ function hostRoom(){
       'trail-'+room
     );
 
+  peer.on('open',()=>{
 
-  peer.on(
-    'open',
-    ()=>{
-      players=[
-        {
-          id:'h',
-          name:me.name,
-          col:me.col
-        }
-      ];
+    players=[
+      {
+        id:'h',
+        name:me.name,
+        col:me.col
+      }
+    ];
 
-      lobbyUI()
-    }
-  );
+    lobbyUI();
 
+  });
 
-  peer.on(
-    'error',
-    e=>{
+  peer.on('error',e=>{
 
-      if(
-        e.type==
-        'unavailable-id'
-      )
-        hostRoom();
+    if(e.type=='unavailable-id')
+      hostRoom();
 
-      else
-        msg(
-          'Network error: '+
-          e.type
-        )
-    }
-  );
+    else
+      msg(
+        'Network error: '+e.type
+      );
 
+  });
 
   peer.on(
     'connection',
@@ -1629,7 +1470,6 @@ function hostRoom(){
         'data',
         d=>hd(c,d)
       );
-
 
       c.on(
         'close',
@@ -1654,13 +1494,15 @@ function hostRoom(){
           });
 
           if(S=='lobby')
-            lobbyUI()
-        }
-      )
-    }
-  )
-}
+            lobbyUI();
 
+        }
+      );
+
+    }
+  );
+
+}
 
 function hd(c,d){
 
@@ -1673,9 +1515,9 @@ function hd(c,d){
 
       c.send({t:'no'});
 
-      return
-    }
+      return;
 
+    }
 
     const id=
       'p'+(++pid);
@@ -1684,12 +1526,10 @@ function hd(c,d){
 
     players.push({
       id,
-      name:
-        String(
-          d.name||'Rider'
-        ).slice(0,12),
-      col:
-        (d.col|0)%6
+      name:String(
+        d.name||'Rider'
+      ).slice(0,12),
+      col:(d.col|0)%6
     });
 
     conns.push(c);
@@ -1707,9 +1547,9 @@ function hd(c,d){
       map:mapI
     });
 
-    lobbyUI()
-  }
+    lobbyUI();
 
+  }
 
   else if(d.t=='s'){
 
@@ -1721,19 +1561,19 @@ function hd(c,d){
       r.tx=+d.x;
       r.tv=+d.v;
       r.tl=+d.l;
-      r.tt=performance.now()
+      r.tt=performance.now();
+
     }
+
   }
 
-
   else if(d.t=='f')
-
     fin(
       c.pid,
       +d.time
-    )
-}
+    );
 
+}
 
 function join(code){
 
@@ -1746,87 +1586,75 @@ function join(code){
 
   peer=new Peer();
 
+  peer.on('open',()=>{
 
-  peer.on(
-    'open',
-    ()=>{
+    hc=
+      peer.connect(
+        'trail-'+code,
+        {reliable:true}
+      );
 
-      hc=
-        peer.connect(
-          'trail-'+code,
-          {reliable:true}
+    hc.on(
+      'open',
+      ()=>hc.send({
+        t:'hi',
+        name:me.name,
+        col:me.col
+      })
+    );
+
+    hc.on(
+      'data',
+      cd
+    );
+
+    hc.on(
+      'close',
+      ()=>msg(
+        'Disconnected from host.'
+      )
+    );
+
+    setTimeout(()=>{
+
+      if(
+        hc &&
+        !hc.open &&
+        S=='menu'
+      )
+
+        msg(
+          'Could not reach room '+
+          code+
+          '. Check the code.'
         );
 
+    },9000);
 
-      hc.on(
-        'open',
-        ()=>hc.send({
-          t:'hi',
-          name:me.name,
-          col:me.col
-        })
-      );
-
-
-      hc.on(
-        'data',
-        cd
-      );
-
-
-      hc.on(
-        'close',
-        ()=>msg(
-          'Disconnected from host.'
-        )
-      );
-
-
-      setTimeout(
-        ()=>{
-          if(
-            hc &&
-            !hc.open &&
-            S=='menu'
-          )
-            msg(
-              'Could not reach room '+
-              code+
-              '. Check the code.'
-            )
-        },
-        9000
-      )
-    }
-  );
-
+  });
 
   peer.on(
     'error',
-    e=>
-      msg(
-        'Could not join: '+
-        e.type
-      )
-  )
-}
+    e=>msg(
+      'Could not join: '+e.type
+    )
+  );
 
+}
 
 function cd(d){
 
   if(d.t=='W'){
 
     myId=d.id;
-
     players=d.players;
-
     mapI=d.map;
 
     T=build(mapI);
 
-    lobbyUI()
-  }
+    lobbyUI();
 
+  }
 
   else if(d.t=='L'){
 
@@ -1836,13 +1664,14 @@ function cd(d){
 
       mapI=d.map;
 
-      T=build(mapI)
+      T=build(mapI);
+
     }
 
     if(S=='lobby')
-      lobbyUI()
-  }
+      lobbyUI();
 
+  }
 
   else if(d.t=='no')
 
@@ -1850,57 +1679,53 @@ function cd(d){
       'Room is full or a race is in progress.'
     );
 
-
   else if(d.t=='go')
-
     startRace();
-
 
   else if(d.t=='back'){
 
     S='lobby';
 
-    lobbyUI()
+    lobbyUI();
+
   }
 
-
   else if(d.t=='F')
-
     FL=d.l;
-
 
   else if(d.t=='P')
 
-    d.p.forEach(
-      e=>{
+    d.p.forEach(e=>{
 
-        const r=R[e[0]];
+      const r=R[e[0]];
 
-        if(
-          r &&
-          e[0]!=myId
-        ){
+      if(
+        r &&
+        e[0]!=myId
+      ){
 
-          r.td=e[1];
-          r.tx=e[2];
-          r.tv=e[3];
-          r.tl=e[4];
-          r.tt=performance.now()
-        }
+        r.td=e[1];
+        r.tx=e[2];
+        r.tv=e[3];
+        r.tl=e[4];
+        r.tt=performance.now();
+
       }
-    )
-  }
+
+    });
+
 }
 
 
-// ---- lobby ----
+/* ================================
+   LOBBY
+================================ */
 
 function lobbyUI(){
 
   S='lobby';
 
   const m=MAPS[mapI];
-
 
   show(`
     <div class=box>
@@ -1923,40 +1748,38 @@ function lobbyUI(){
 
       ${
         host
-          ?`
-            <select id=mp>
-              ${
-                MAPS.map(
-                  (x,i)=>
-                    `<option value=${i}>
-                      ${x.n}
-                    </option>`
-                ).join('')
-              }
-            </select>
-          `
-          :`<b>${m.n}</b>`
+        ?
+        `<select id=mp>
+          ${MAPS.map(
+            (x,i)=>
+            `<option value=${i}>
+              ${x.n}
+            </option>`
+          ).join('')}
+        </select>`
+        :
+        `<b>${m.n}</b>`
       }
 
       <p>
-        ${
-          m.z
-           .map(k=>B[k].n)
-           .join(' &rarr; ')
-        }
+        ${m.z.map(
+          k=>B[k].n
+        ).join(' &rarr; ')}
       </p>
 
       <canvas
         id=mm
         width=170
         height=170
-        style="align-self:center">
-      </canvas>
+        style="align-self:center"
+      ></canvas>
 
       ${
         host
-          ?'<button class=p id=go>Start race</button>'
-          :'<p>Waiting for the host to start...</p>'
+        ?
+        '<button class=p id=go>Start race</button>'
+        :
+        '<p>Waiting for the host to start...</p>'
       }
 
       <button id=lv>
@@ -1966,9 +1789,7 @@ function lobbyUI(){
     </div>
   `);
 
-
   $('#rc').textContent=room;
-
 
   $('#mm')
     .getContext('2d')
@@ -1977,7 +1798,6 @@ function lobbyUI(){
       0,
       0
     );
-
 
   players.forEach(p=>{
 
@@ -1989,7 +1809,6 @@ function lobbyUI(){
 
     const s=
       document.createElement('span');
-
 
     b.style.background=
       COLS[p.col%6];
@@ -2007,41 +1826,35 @@ function lobbyUI(){
           :''
       );
 
-
     li.append(b,s);
 
-    $('#pl')
-      .append(li)
-  });
+    $('#pl').append(li);
 
+  });
 
   $('#cp').onclick=e=>{
 
-    navigator.clipboard&&
-      navigator.clipboard.writeText(
-        location.origin+
-        location.pathname+
-        '?room='+
-        room
-      );
+    navigator.clipboard &&
+    navigator.clipboard.writeText(
+      location.origin+
+      location.pathname+
+      '?room='+room
+    );
 
     e.target.textContent=
-      'Copied!'
+      'Copied!';
+
   };
 
-
   $('#lv').onclick=menu;
-
 
   if(host){
 
     $('#mp').value=mapI;
 
-
     $('#mp').onchange=e=>{
 
-      mapI=
-        +e.target.value;
+      mapI=+e.target.value;
 
       T=build(mapI);
 
@@ -2051,25 +1864,29 @@ function lobbyUI(){
         map:mapI
       });
 
-      lobbyUI()
-    };
+      lobbyUI();
 
+    };
 
     $('#go').onclick=()=>{
 
       bc({t:'go'});
 
-      startRace()
-    }
+      startRace();
+
+    };
+
   }
+
 }
 
 
-// ---- race flow ----
+/* ================================
+   RACE FLOW
+================================ */
 
 const lane=i=>
   -.6+(i%4)*.4;
-
 
 function startRace(){
 
@@ -2095,7 +1912,6 @@ function startRace(){
       )
     );
 
-
   me.x=lane(idx);
 
   me.d=
@@ -2103,11 +1919,8 @@ function startRace(){
     (idx>>2)*350;
 
   me.v=0;
-
   me.n=.5;
-
   me.l=0;
-
 
   players.forEach((p,i)=>{
 
@@ -2128,42 +1941,35 @@ function startRace(){
         tv:0,
         tl:0,
         tt:now
-      }
-  });
+      };
 
+  });
 
   if(solo)
 
-    [
-      'Blaze',
-      'Rex',
-      'Nova'
-    ].forEach(
-      (n,i)=>
-
-        R['b'+i]={
-          id:'b'+i,
-          name:n,
-          col:
-            (me.col+i+1)%6,
-          bot:1,
-          sk:.8+i*.06,
-          ln:lane(i+1),
-          d:15*SL,
-          x:lane(i+1),
-          l:0,
-          v:0
-        }
+    ['Blaze','Rex','Nova']
+    .forEach((n,i)=>
+      R['b'+i]={
+        id:'b'+i,
+        name:n,
+        col:(me.col+i+1)%6,
+        bot:1,
+        sk:.8+i*.06,
+        ln:lane(i+1),
+        d:15*SL,
+        x:lane(i+1),
+        l:0,
+        v:0
+      }
     );
-
 
   S='count';
 
   t0=now+3000;
 
-  show('')
-}
+  show('');
 
+}
 
 function fin(id,time){
 
@@ -2174,18 +1980,15 @@ function fin(id,time){
   )
     return;
 
-  FL.push([
-    id,
-    time
-  ]);
+  FL.push([id,time]);
 
   if(host)
     bc({
       t:'F',
       l:FL
-    })
-}
+    });
 
+}
 
 const nm=id=>
   id==myId
@@ -2195,6 +1998,10 @@ const nm=id=>
       :'?';
 
 
+/* ================================
+   RESULTS
+================================ */
+
 function resUI(first){
 
   if(first)
@@ -2202,9 +2009,7 @@ function resUI(first){
     show(`
       <div class=box>
 
-        <h2>
-          Race results
-        </h2>
+        <h2>Race results</h2>
 
         <ul id=rl></ul>
 
@@ -2214,8 +2019,8 @@ function resUI(first){
 
           <button
             id=bk
-            class=p>
-          </button>
+            class=p
+          ></button>
 
           <button id=ex>
             Exit
@@ -2226,7 +2031,6 @@ function resUI(first){
       </div>
     `);
 
-
   const rl=$('#rl');
 
   if(!rl)
@@ -2234,49 +2038,38 @@ function resUI(first){
 
   rl.innerHTML='';
 
+  FL.forEach((e,i)=>{
 
-  FL.forEach(
-    (e,i)=>{
+    const li=
+      document.createElement('li');
 
-      const li=
-        document.createElement('li');
+    const s=
+      document.createElement('span');
 
-      const s=
-        document.createElement('span');
+    const em=
+      document.createElement('em');
 
-      const em=
-        document.createElement('em');
+    s.textContent=
+      (i+1)+'. '+nm(e[0]);
 
+    em.textContent=
+      e[1].toFixed(1)+'s';
 
-      s.textContent=
-        (i+1)+
-        '. '+
-        nm(e[0]);
+    li.append(s,em);
 
-      em.textContent=
-        e[1].toFixed(1)+
-        's';
+    rl.append(li);
 
-
-      li.append(s,em);
-
-      rl.append(li)
-    }
-  );
-
+  });
 
   const left=
     1+
     Object.keys(R).length-
     FL.length;
 
-
   $('#wt').textContent=
     left>0
-      ?left+
-        ' rider(s) still racing...'
+      ?left+' rider(s) still racing...'
       :'Everyone finished!';
-
 
   const bk=$('#bk');
 
@@ -2287,16 +2080,12 @@ function resUI(first){
         ?'Back to lobby'
         :'Waiting for host';
 
-
   bk.disabled=
-    !solo &&
-    !host;
-
+    !solo&&!host;
 
   bk.onclick=()=>{
 
     if(solo)
-
       startRace();
 
     else if(host){
@@ -2305,27 +2094,32 @@ function resUI(first){
 
       S='lobby';
 
-      lobbyUI()
+      lobbyUI();
+
     }
+
   };
 
+  $('#ex').onclick=menu;
 
-  $('#ex').onclick=menu
 }
 
 
-// ---- rendering ----
+/* ================================
+   RENDERING
+================================ */
 
-function proj(p,xw,yw,zw){
+function proj(
+  p,
+  xw,
+  yw,
+  zw
+){
 
   p.x=-xw;
-
   p.y=p.wy-yw;
-
   p.z=p.wz-zw;
-
-  p.sc=
-    camD/p.z;
+  p.sc=camD/p.z;
 
   p.sx=
     Math.round(
@@ -2342,9 +2136,9 @@ function proj(p,xw,yw,zw){
   p.sw=
     Math.round(
       p.sc*RW*W/2
-    )
-}
+    );
 
+}
 
 const quad=(
   a,b,c,d,e,f,col
@@ -2355,16 +2149,13 @@ const quad=(
   cx.beginPath();
 
   cx.moveTo(a,b);
-
   cx.lineTo(c,b);
-
   cx.lineTo(f,e);
-
   cx.lineTo(d,e);
 
-  cx.fill()
-};
+  cx.fill();
 
+};
 
 function mount(
   off,
@@ -2380,57 +2171,41 @@ function mount(
 
   cx.moveTo(0,H);
 
-
   for(
     let x=0;
     x<=W+12;
     x+=12
   ){
 
-    const u=
-      (x+off)*f;
+    const u=(x+off)*f;
 
     cx.lineTo(
       x,
       base-
-      amp*
-      (
+      amp*(
         .55+
         .3*Math.sin(u)+
-        .15*Math.sin(
-          u*2.7+1
-        )
+        .15*Math.sin(u*2.7+1)
       )
     );
+
   }
 
+  cx.lineTo(W+12,H);
 
-  cx.lineTo(
-    W+12,
-    H
-  );
+  cx.fill();
 
-  cx.fill()
 }
-
 
 function arch(a,t){
 
-  const f=
-    a.sc*W/2;
-
-  const hw=
-    a.sw*1.1;
-
-  const ph=
-    f*1500;
-
-  const pw=
-    Math.max(
-      2,
-      f*110
-    );
-
+  const f=a.sc*W/2,
+  hw=a.sw*1.1,
+  ph=f*1500,
+  pw=Math.max(
+    2,
+    f*150
+  );
 
   cx.fillStyle='#2b3248';
 
@@ -2455,7 +2230,6 @@ function arch(a,t){
     ph*.2
   );
 
-
   cx.fillStyle='#fff';
 
   cx.font=
@@ -2471,9 +2245,14 @@ function arch(a,t){
     t,
     a.sx,
     a.sy-ph*.9
-  )
+  );
+
 }
 
+
+/* ================================
+   BIKE
+================================ */
 
 function bike(
   x,
@@ -2486,16 +2265,14 @@ function bike(
   bo
 ){
 
-  const k=h/152;
-
-  const c=COLS[ci];
+  const k=h/152,
+  c=COLS[ci];
 
   cx.save();
 
   cx.translate(x,y);
 
   cx.scale(k,k);
-
 
   let g=
     cx.createRadialGradient(
@@ -2513,7 +2290,6 @@ function bike(
     'rgba(0,0,0,0)'
   );
 
-
   cx.save();
 
   cx.scale(1,.2);
@@ -2523,8 +2299,7 @@ function bike(
   cx.beginPath();
 
   cx.arc(
-    0,0,
-    46,
+    0,0,46,
     0,7
   );
 
@@ -2532,32 +2307,29 @@ function bike(
 
   cx.restore();
 
-
   cx.rotate(l*.32);
-
 
   const ln=(
     col,
     w,
-    a,b,
-    c2,d
+    a,
+    b,
+    c2,
+    d
   )=>{
 
     cx.strokeStyle=col;
-
     cx.lineWidth=w;
-
     cx.lineCap='round';
 
     cx.beginPath();
 
     cx.moveTo(a,b);
-
     cx.lineTo(c2,d);
 
-    cx.stroke()
-  };
+    cx.stroke();
 
+  };
 
   const sh=()=>{
 
@@ -2582,9 +2354,9 @@ function bike(
       'rgba(0,0,0,.55)'
     );
 
-    cx.fillStyle=q
-  };
+    cx.fillStyle=q;
 
+  };
 
   g=
     cx.createLinearGradient(
@@ -2592,44 +2364,39 @@ function bike(
       11,0
     );
 
-
   [
     [0,'#040404'],
     [.3,'#26262a'],
     [.5,'#3c3c42'],
     [.7,'#202024'],
     [1,'#040404']
-  ]
-  .forEach(
-    s=>
-      g.addColorStop(
-        s[0],
-        s[1]
-      )
+  ].forEach(
+    s=>g.addColorStop(
+      s[0],
+      s[1]
+    )
   );
-
 
   cx.fillStyle=g;
 
   cx.beginPath();
 
   cx.roundRect(
-    -11,-52,
-    22,52,
+    -11,
+    -52,
+    22,
+    52,
     9
   );
 
   cx.fill();
-
 
   cx.strokeStyle=
     'rgba(0,0,0,.55)';
 
   cx.lineWidth=1.3;
 
-  const o=
-    (rt/22)%5.5;
-
+  const o=(rt/22)%5.5;
 
   for(
     let i=0;
@@ -2658,101 +2425,92 @@ function bike(
       yy-2
     );
 
-    cx.stroke()
-  }
+    cx.stroke();
 
+  }
 
   cx.fillStyle='#161922';
 
   cx.beginPath();
 
   cx.moveTo(-10,-46);
-
   cx.lineTo(10,-46);
-
   cx.lineTo(7,-68);
-
   cx.lineTo(-7,-68);
 
   cx.fill();
-
 
   [-1,1].forEach(s=>{
 
     ln(
       '#171b27',
       14,
-      s*11,-92,
-      s*20,-66
+      s*11,
+      -92,
+      s*20,
+      -66
     );
 
     ln(
       'rgba(255,255,255,.1)',
       3,
-      s*8,-92,
-      s*17,-67
+      s*8,
+      -92,
+      s*17,
+      -67
     );
 
     ln(
       '#0b0c10',
       11,
-      s*20,-66,
-      s*21,-50
+      s*20,
+      -66,
+      s*21,
+      -50
     );
 
     ln(
       '#d9dde6',
       2,
-      s*16,-80,
-      s*20,-72
+      s*16,
+      -80,
+      s*20,
+      -72
     );
-
-    ln(
-      '#7c8594',
-      6,
-      s*17,-26,
-      s*14,-60
-    );
-
-    ln(
-      '#dfe5ee',
-      2,
-      s*18.5,-26,
-      s*15.5,-60
-    );
-
 
     if(bo){
 
       cx.save();
 
       cx.shadowColor='#ff7a18';
-
       cx.shadowBlur=16;
-
       cx.fillStyle='#ffc766';
 
       cx.beginPath();
 
       cx.ellipse(
-        s*17,-24,
-        4,9,
-        0,0,7
+        s*17,
+        -24,
+        4,
+        9,
+        0,
+        0,
+        7
       );
 
       cx.fill();
 
-      cx.restore()
-    }
-  });
+      cx.restore();
 
+    }
+
+  });
 
   cx.fillStyle=c;
 
   cx.beginPath();
 
   cx.moveTo(-16,-58);
-
   cx.quadraticCurveTo(
     -18,-80,
     -9,-92
@@ -2771,7 +2529,6 @@ function bike(
 
   sh();
 
-
   cx.save();
 
   cx.shadowColor='#ff2020';
@@ -2780,15 +2537,15 @@ function bike(
     br?26:10;
 
   cx.fillStyle=
-    br
-      ?'#ff6a6a'
-      :'#c41818';
+    br?'#ff6a6a':'#c41818';
 
   cx.beginPath();
 
   cx.roundRect(
-    -9,-76,
-    18,4.5,
+    -9,
+    -76,
+    18,
+    4.5,
     2
   );
 
@@ -2796,14 +2553,14 @@ function bike(
 
   cx.restore();
 
-
   ln(
     '#9aa3b2',
     3.5,
-    -42,-90,
-    42,-90
+    -42,
+    -90,
+    42,
+    -90
   );
-
 
   [-1,1].forEach(s=>{
 
@@ -2812,10 +2569,13 @@ function bike(
     cx.beginPath();
 
     cx.ellipse(
-      s*40,-103,
-      5,3.5,
+      s*40,
+      -103,
+      5,
+      3.5,
       s*.5,
-      0,7
+      0,
+      7
     );
 
     cx.fill();
@@ -2823,11 +2583,13 @@ function bike(
     ln(
       '#14161c',
       1.6,
-      s*38,-90,
-      s*40,-100
-    )
-  });
+      s*38,
+      -90,
+      s*40,
+      -100
+    );
 
+  });
 
   cx.fillStyle='#1f2535';
 
@@ -2855,14 +2617,14 @@ function bike(
 
   sh();
 
-
   cx.fillStyle=c;
 
   cx.fillRect(
-    -3.5,-126,
-    7,36
+    -3.5,
+    -126,
+    7,
+    36
   );
-
 
   cx.fillStyle=
     'rgba(255,255,255,.08)';
@@ -2870,13 +2632,16 @@ function bike(
   cx.beginPath();
 
   cx.ellipse(
-    0,-110,
-    11,12,
-    0,0,7
+    0,
+    -110,
+    11,
+    12,
+    0,
+    0,
+    7
   );
 
   cx.fill();
-
 
   [-1,1].forEach(s=>{
 
@@ -2885,10 +2650,13 @@ function bike(
     cx.beginPath();
 
     cx.ellipse(
-      s*19,-121,
-      7,5,
+      s*19,
+      -121,
+      7,
+      5,
       s*.4,
-      0,7
+      0,
+      7
     );
 
     cx.fill();
@@ -2898,15 +2666,19 @@ function bike(
     ln(
       '#1f2535',
       10,
-      s*18,-118,
-      s*30,-103
+      s*18,
+      -118,
+      s*30,
+      -103
     );
 
     ln(
       '#1f2535',
       8.5,
-      s*30,-103,
-      s*34,-91
+      s*30,
+      -103,
+      s*34,
+      -91
     );
 
     cx.fillStyle='#0d0e12';
@@ -2914,35 +2686,41 @@ function bike(
     cx.beginPath();
 
     cx.arc(
-      s*35,-90,
+      s*35,
+      -90,
       5.5,
-      0,7
+      0,
+      7
     );
 
-    cx.fill()
-  });
+    cx.fill();
 
+  });
 
   cx.fillStyle='#14161c';
 
   cx.fillRect(
-    -6,-132,
-    12,8
+    -6,
+    -132,
+    12,
+    8
   );
-
 
   cx.fillStyle=c;
 
   cx.beginPath();
 
   cx.ellipse(
-    0,-137,
-    13.5,14,
-    0,0,7
+    0,
+    -137,
+    13.5,
+    14,
+    0,
+    0,
+    7
   );
 
   cx.fill();
-
 
   g=
     cx.createRadialGradient(
@@ -2970,38 +2748,42 @@ function bike(
   cx.beginPath();
 
   cx.ellipse(
-    0,-137,
-    13.5,14,
-    0,0,7
+    0,
+    -137,
+    13.5,
+    14,
+    0,
+    0,
+    7
   );
 
   cx.fill();
-
 
   cx.fillStyle=
     'rgba(255,255,255,.85)';
 
   cx.fillRect(
-    -1.8,-151,
-    3.6,22
+    -1.8,
+    -151,
+    3.6,
+    22
   );
-
 
   cx.fillStyle='#0b0d12';
 
   cx.beginPath();
 
   cx.roundRect(
-    -8,-130,
-    16,4,
+    -8,
+    -130,
+    16,
+    4,
     2
   );
 
   cx.fill();
 
-
   cx.restore();
-
 
   if(name){
 
@@ -3033,26 +2815,26 @@ function bike(
       name,
       x,
       y-h*1.08
-    )
+    );
+
   }
+
 }
 
 
-// ---- particles ----
+/* ================================
+   EFFECTS
+================================ */
 
 const PT=[];
 
 const SN=
   [...Array(90)]
-  .map(
-    ()=>
-      [
-        Math.random(),
-        Math.random(),
-        Math.random()
-      ]
-  );
-
+  .map(()=>[
+    Math.random(),
+    Math.random(),
+    Math.random()
+  ]);
 
 function post(boost){
 
@@ -3065,14 +2847,12 @@ function post(boost){
         ?bs.t
         :0;
 
-
   if(w>.05){
 
     cx.fillStyle=
       'rgba(255,255,255,'+
       .8*w+
       ')';
-
 
     SN.forEach(f=>{
 
@@ -3084,7 +2864,6 @@ function post(boost){
             (2600/(.6+f[2]))
           )%1
         )*H;
-
 
       const x=
         (
@@ -3100,7 +2879,6 @@ function post(boost){
           )+1
         )%1*W;
 
-
       cx.beginPath();
 
       cx.arc(
@@ -3111,15 +2889,15 @@ function post(boost){
         7
       );
 
-      cx.fill()
-    })
-  }
+      cx.fill();
 
+    });
+
+  }
 
   const off=
     Math.abs(me.x)>1.05 &&
     me.v>800;
-
 
   if(
     (
@@ -3140,7 +2918,6 @@ function post(boost){
     )
 
       PT.push({
-
         x:
           W/2+
           (Math.random()-.5)*
@@ -3149,8 +2926,7 @@ function post(boost){
         y:H*.9,
 
         vx:
-          (Math.random()-.5)*
-          160,
+          (Math.random()-.5)*160,
 
         vy:
           -60-
@@ -3170,13 +2946,12 @@ function post(boost){
               :'220,220,225',
 
         s:
-          H*
-          (
+          H*(
             .012+
             Math.random()*.02
           )
-      });
 
+      });
 
   for(
     let i=PT.length-1;
@@ -3192,15 +2967,13 @@ function post(boost){
 
       PT.splice(i,1);
 
-      continue
+      continue;
+
     }
 
     p.x+=p.vx*.016;
-
     p.y+=p.vy*.016;
-
     p.s*=1.03;
-
 
     cx.fillStyle=
       'rgba('+
@@ -3209,34 +2982,30 @@ function post(boost){
       p.l*.35+
       ')';
 
-
     cx.beginPath();
 
     cx.arc(
       p.x,
       p.y,
       p.s,
-      0,7
+      0,
+      7
     );
 
-    cx.fill()
+    cx.fill();
+
   }
 
-
-  cx.globalCompositeOperation=
-    'screen';
-
+  cx.globalCompositeOperation='screen';
 
   const sx=W*.78,
-  sy=H*.2;
+  sy=H*.2,
 
-
-  const g=
+  g=
     cx.createRadialGradient(
       sx,sy,0,
       sx,sy,H*.7
     );
-
 
   g.addColorStop(
     0,
@@ -3248,24 +3017,27 @@ function post(boost){
     'rgba(255,200,120,0)'
   );
 
-
   cx.fillStyle=g;
 
   cx.fillRect(
-    0,0,W,H
+    0,
+    0,
+    W,
+    H
   );
-
 
   cx.globalCompositeOperation=
     'source-over';
 
-
   const v=
     cx.createRadialGradient(
-      W/2,H*.55,H*.35,
-      W/2,H*.55,H*1.05
+      W/2,
+      H*.55,
+      H*.35,
+      W/2,
+      H*.55,
+      H*1.05
     );
-
 
   v.addColorStop(
     0,
@@ -3282,17 +3054,17 @@ function post(boost){
     ')'
   );
 
-
   cx.fillStyle=v;
 
   cx.fillRect(
-    0,0,W,H
+    0,
+    0,
+    W,
+    H
   );
-
 
   cx.globalCompositeOperation=
     'soft-light';
-
 
   cx.fillStyle=
     bs.fg
@@ -3305,44 +3077,41 @@ function post(boost){
         ',.35)'
       );
 
-
   cx.fillRect(
-    0,0,W,H
+    0,
+    0,
+    W,
+    H
   );
 
-
   cx.globalCompositeOperation=
-    'source-over'
+    'source-over';
+
 }
 
 
-// ---- draw ----
+/* ================================
+   DRAW
+================================ */
 
 function draw(boost){
 
   const sg=T.sg,
   N=sg.length,
   pos=me.d%T.len,
-
   bs=
     sg[
       Math.floor(pos/SL)
     ],
-
   bp=
     pos%SL/SL,
-
-  pz=
-    pos+PZ,
-
+  pz=pos+PZ,
   ps=
     sg[
       Math.floor(pz/SL)%N
     ],
-
   pp=
     pz%SL/SL,
-
   py=
     lerp(
       ps.p1.wy,
@@ -3350,9 +3119,7 @@ function draw(boost){
       pp
     );
 
-
   cx.save();
-
 
   cx.translate(
     W/2,
@@ -3368,7 +3135,6 @@ function draw(boost){
     -H/2
   );
 
-
   if(
     S=='race' &&
     (
@@ -3383,21 +3149,21 @@ function draw(boost){
     cx.translate(
       (Math.random()-.5)*s,
       (Math.random()-.5)*s
-    )
-  }
+    );
 
+  }
 
   const a=bs.a,
   b=bs.b,
-  t=bs.t;
+  t=bs.t,
 
-
-  const g=
+  g=
     cx.createLinearGradient(
-      0,0,
-      0,H/2
+      0,
+      0,
+      0,
+      H/2
     );
-
 
   g.addColorStop(
     0,
@@ -3410,7 +3176,6 @@ function draw(boost){
     )
   );
 
-
   g.addColorStop(
     1,
     rgb(
@@ -3422,7 +3187,6 @@ function draw(boost){
     )
   );
 
-
   cx.fillStyle=g;
 
   cx.fillRect(
@@ -3433,135 +3197,123 @@ function draw(boost){
   );
 
 
-  {
-    const sx=W*.78,
-    sy=H*.2;
+  const sx=W*.78,
+  sy=H*.2,
 
-    const sg=
-      cx.createRadialGradient(
-        sx,sy,0,
-        sx,sy,H*.5
-      );
-
-
-    sg.addColorStop(
+  sg=
+    cx.createRadialGradient(
+      sx,
+      sy,
       0,
-      'rgba(255,250,225,1)'
+      sx,
+      sy,
+      H*.5
     );
 
-    sg.addColorStop(
-      .07,
-      'rgba(255,238,175,.85)'
-    );
+  sg.addColorStop(
+    0,
+    'rgba(255,250,225,1)'
+  );
 
-    sg.addColorStop(
-      .25,
-      'rgba(255,200,120,.22)'
-    );
+  sg.addColorStop(
+    .07,
+    'rgba(255,238,175,.85)'
+  );
 
-    sg.addColorStop(
+  sg.addColorStop(
+    .25,
+    'rgba(255,200,120,.22)'
+  );
+
+  sg.addColorStop(
+    1,
+    'rgba(255,200,120,0)'
+  );
+
+  cx.fillStyle=sg;
+
+  cx.fillRect(
+    0,
+    0,
+    W,
+    H/2+10
+  );
+
+
+  for(let i=0;i<7;i++){
+
+    const m=W*1.4,
+
+    cxp=
+      (
+        (
+          i*.19+
+          .05
+        )*m-
+        skyX*
+        (
+          .12+
+          i%3*.04
+        )
+      )%m+m
+      -W*.2,
+
+    cyp=
+      H*(
+        .07+
+        (i*37%20)/110
+      ),
+
+    r=
+      H*(
+        .05+
+        (i%3)*.02
+      );
+
+    cx.save();
+
+    cx.scale(
       1,
-      'rgba(255,200,120,0)'
+      .35
     );
 
-
-    cx.fillStyle=sg;
-
-    cx.fillRect(
-      0,0,
-      W,
-      H/2+10
-    );
-
-
-    for(
-      let i=0;
-      i<7;
-      i++
-    ){
-
-      const m=W*1.4;
-
-      const cxp=
-        (
-          (
-            (
-              i*.19+.05
-            )*m-
-            skyX*
-            (
-              .12+
-              i%3*.04
-            )
-          )%m+m
-        )%
-        m-W*.2;
-
-
-      const cyp=
-        H*
-        (
-          .07+
-          (i*37%20)/110
-        );
-
-
-      const r=
-        H*
-        (
-          .05+
-          (i%3)*.02
-        );
-
-
-      cx.save();
-
-      cx.scale(
-        1,
-        .35
-      );
-
-
-      const cg=
-        cx.createRadialGradient(
-          cxp,
-          cyp/.35,
-          0,
-          cxp,
-          cyp/.35,
-          r*2.6
-        );
-
-
-      cg.addColorStop(
-        0,
-        'rgba(255,255,255,.55)'
-      );
-
-      cg.addColorStop(
-        1,
-        'rgba(255,255,255,0)'
-      );
-
-
-      cx.fillStyle=cg;
-
-      cx.beginPath();
-
-      cx.arc(
+    const cg=
+      cx.createRadialGradient(
         cxp,
         cyp/.35,
-        r*2.6,
         0,
-        7
+        cxp,
+        cyp/.35,
+        r*2.6
       );
 
-      cx.fill();
+    cg.addColorStop(
+      0,
+      'rgba(255,255,255,.55)'
+    );
 
-      cx.restore()
-    }
+    cg.addColorStop(
+      1,
+      'rgba(255,255,255,0)'
+    );
+
+    cx.fillStyle=cg;
+
+    cx.beginPath();
+
+    cx.arc(
+      cxp,
+      cyp/.35,
+      r*2.6,
+      0,
+      7
+    );
+
+    cx.fill();
+
+    cx.restore();
+
   }
-
 
   mount(
     skyX*.5,
@@ -3576,7 +3328,6 @@ function draw(boost){
     ),
     .004
   );
-
 
   mount(
     skyX,
@@ -3593,46 +3344,40 @@ function draw(boost){
   );
 
 
-  {
-    const hz=
-      cx.createLinearGradient(
-        0,
-        H/2-H*.14,
-        0,
-        H/2+4
-      );
-
-
-    hz.addColorStop(
+  const hz=
+    cx.createLinearGradient(
       0,
-      bs.fg
-        .replace(
-          'rgb',
-          'rgba'
-        )
-        .replace(
-          ')',
-          ',0)'
-        )
-    );
-
-
-    hz.addColorStop(
-      1,
-      bs.fg
-    );
-
-
-    cx.fillStyle=hz;
-
-    cx.fillRect(
-      -20,
       H/2-H*.14,
-      W+40,
-      H*.14+4
-    )
-  }
+      0,
+      H/2+4
+    );
 
+  hz.addColorStop(
+    0,
+    bs.fg
+      .replace(
+        'rgb',
+        'rgba'
+      )
+      .replace(
+        ')',
+        ',0)'
+      )
+  );
+
+  hz.addColorStop(
+    1,
+    bs.fg
+  );
+
+  cx.fillStyle=hz;
+
+  cx.fillRect(
+    -20,
+    H/2-H*.14,
+    W+40,
+    H*.14+4
+  );
 
   cx.fillStyle=
     bs.g[1];
@@ -3649,7 +3394,6 @@ function draw(boost){
   x=0,
   dx=-(bs.c*bp);
 
-
   for(
     let n=0;
     n<DD;
@@ -3661,7 +3405,6 @@ function draw(boost){
         (bs.i+n)%N
       ];
 
-
     const cz=
       pos-
       (
@@ -3670,10 +3413,8 @@ function draw(boost){
           :0
       );
 
-
     const xw=
       me.x*RW-x;
-
 
     proj(
       s.p1,
@@ -3682,7 +3423,6 @@ function draw(boost){
       cz
     );
 
-
     proj(
       s.p2,
       xw-dx,
@@ -3690,22 +3430,18 @@ function draw(boost){
       cz
     );
 
-
     x+=dx;
 
     dx+=s.c;
 
     s.clip=-1;
 
-
     if(
       s.p1.z<=camD
     )
       continue;
 
-
     s.clip=maxy;
-
 
     if(
       s.p2.sy>=s.p1.sy ||
@@ -3713,15 +3449,14 @@ function draw(boost){
     )
       continue;
 
-
     const p=s.p1,
     q=s.p2,
     par=(s.i/3|0)%2,
     r1=p.sw/6,
     r2=q.sw/6;
 
-
-    cx.fillStyle=s.g[par];
+    cx.fillStyle=
+      s.g[par];
 
     cx.fillRect(
       -20,
@@ -3730,12 +3465,10 @@ function draw(boost){
       p.sy-q.sy
     );
 
-
     const rc=
       par
         ?'#fff'
         :'#d33';
-
 
     quad(
       p.sx-p.sw-r1,
@@ -3747,7 +3480,6 @@ function draw(boost){
       rc
     );
 
-
     quad(
       p.sx+p.sw,
       p.sy,
@@ -3757,7 +3489,6 @@ function draw(boost){
       q.sx+q.sw+r2,
       rc
     );
-
 
     quad(
       p.sx-p.sw,
@@ -3775,7 +3506,6 @@ function draw(boost){
         :s.r[par]
     );
 
-
     if(
       !par &&
       !s.k
@@ -3791,7 +3521,6 @@ function draw(boost){
         '#e8e8e8'
       );
 
-
     if(!s.k){
 
       quad(
@@ -3804,7 +3533,6 @@ function draw(boost){
         '#e8e8e8'
       );
 
-
       quad(
         p.sx+p.sw*.93,
         p.sy,
@@ -3815,9 +3543,7 @@ function draw(boost){
         '#e8e8e8'
       );
 
-
       cx.globalAlpha=.1;
-
 
       quad(
         p.sx-p.sw*.45,
@@ -3829,7 +3555,6 @@ function draw(boost){
         '#000'
       );
 
-
       quad(
         p.sx+p.sw*.2,
         p.sy,
@@ -3840,19 +3565,18 @@ function draw(boost){
         '#000'
       );
 
+      cx.globalAlpha=1;
 
-      cx.globalAlpha=1
     }
-
 
     const fg=
       1-
-      1/Math.exp(
+      1/
+      Math.exp(
         (n/DD)*
         (n/DD)*
         5
       );
-
 
     if(fg>.01){
 
@@ -3867,24 +3591,23 @@ function draw(boost){
         p.sy-q.sy
       );
 
-      cx.globalAlpha=1
+      cx.globalAlpha=1;
+
     }
 
+    maxy=p.sy;
 
-    maxy=p.sy
   }
 
 
   const cm={};
 
-
   for(
     const id in R
   ){
 
-    const r=R[id];
-
-    const k=
+    const r=R[id],
+    k=
       Math.floor(
         r.d/SL
       )%N;
@@ -3892,14 +3615,12 @@ function draw(boost){
     (
       cm[k]||
       (cm[k]=[])
-    ).push(r)
+    ).push(r);
+
   }
 
-
   const BH=
-    H*.36*
-    2*CH/W;
-
+    H*.36*2*CH/W;
 
   for(
     let n=DD-1;
@@ -3910,23 +3631,17 @@ function draw(boost){
     const s=
       sg[
         (bs.i+n)%N
-      ];
+      ],
 
-    const cs=cm[s.i];
-
+    cs=cm[s.i];
 
     if(
       s.clip<0 ||
-      !(
-        s.pr.length ||
-        cs
-      )
+      !(s.pr.length||cs)
     )
       continue;
 
-
     cx.save();
-
 
     cx.beginPath();
 
@@ -3939,22 +3654,20 @@ function draw(boost){
 
     cx.clip();
 
-
     cx.globalAlpha=
       1-
       (
         1-
-        1/Math.exp(
+        1/
+        Math.exp(
           (n/DD)*
           (n/DD)*
           5
         )
       )*.85;
 
-
     const p=s.p1,
     f=p.sc*W/2;
-
 
     for(
       const o of s.pr
@@ -3970,7 +3683,8 @@ function draw(boost){
       else{
 
         const [
-          w,h
+          w,
+          h
         ]=SZ[o.t];
 
         const X=
@@ -3978,7 +3692,6 @@ function draw(boost){
           f*
           o.o*
           RW;
-
 
         cx.fillStyle=
           'rgba(0,0,0,.28)';
@@ -3997,17 +3710,17 @@ function draw(boost){
 
         cx.fill();
 
-
         cx.drawImage(
           TX[o.t],
           X-w*f/2,
           p.sy-h*f,
           w*f,
           h*f
-        )
-      }
-    }
+        );
 
+      }
+
+    }
 
     if(cs)
 
@@ -4025,14 +3738,16 @@ function draw(boost){
             q
           );
 
-
         bike(
           lerp(
             p.sx,
             s.p2.sx,
             q
           )+
-          sc*r.x*RW*W/2,
+          sc*
+          r.x*
+          RW*
+          W/2,
 
           lerp(
             p.sy,
@@ -4045,11 +3760,12 @@ function draw(boost){
           r.l,
           r.col,
           r.name
-        )
+        );
+
       }
 
+    cx.restore();
 
-    cx.restore()
   }
 
 
@@ -4060,7 +3776,6 @@ function draw(boost){
 
     cx.lineWidth=2;
 
-
     for(
       let i=0;
       i<24;
@@ -4068,16 +3783,14 @@ function draw(boost){
     ){
 
       const an=
-        Math.random()*6.28;
+        Math.random()*6.28,
 
-      const r1=
+      r1=
         H*.35+
-        Math.random()*H*.2;
+        Math.random()*H*.2,
 
-      const r2=
-        r1+
-        H*.15;
-
+      r2=
+        r1+H*.15;
 
       cx.beginPath();
 
@@ -4085,26 +3798,27 @@ function draw(boost){
         W/2+
         Math.cos(an)*
         r1*1.6,
+
         H/2+
         Math.sin(an)*
         r1
       );
 
-
       cx.lineTo(
         W/2+
         Math.cos(an)*
         r2*1.6,
+
         H/2+
         Math.sin(an)*
         r2
       );
 
+      cx.stroke();
 
-      cx.stroke()
     }
-  }
 
+  }
 
   bike(
     W/2,
@@ -4114,6 +3828,7 @@ function draw(boost){
     )*
     me.v/MAXV*
     5,
+
     H*.36,
     me.l,
     me.col,
@@ -4122,14 +3837,16 @@ function draw(boost){
     boost
   );
 
-
   cx.restore();
 
-  post(boost)
+  post(boost);
+
 }
 
 
-// ---- HUD ----
+/* ================================
+   HUD
+================================ */
 
 function hud(now){
 
@@ -4139,7 +3856,6 @@ function hud(now){
   )
     return;
 
-
   const fs=
     Math.max(
       13,
@@ -4148,7 +3864,6 @@ function hud(now){
         H*1.7
       )/42
     );
-
 
   const t=(
     s,
@@ -4184,23 +3899,20 @@ function hud(now){
       s,
       x,
       y
-    )
-  };
+    );
 
+  };
 
   const tot=
     1+
     Object.keys(R).length;
-
 
   const fi=
     FL.findIndex(
       e=>e[0]==myId
     );
 
-
   let k=1;
-
 
   for(
     const r of Object.values(R)
@@ -4210,7 +3922,6 @@ function hud(now){
       FL.findIndex(
         e=>e[0]==r.id
       );
-
 
     if(
       a>=0 &&
@@ -4223,9 +3934,9 @@ function hud(now){
       fi<0 &&
       r.d>me.d
     )
-      k++
-  }
+      k++;
 
+  }
 
   t(
     k+'/'+tot,
@@ -4236,7 +3947,6 @@ function hud(now){
     '#fbbf24'
   );
 
-
   t(
     (
       fi>=0
@@ -4245,22 +3955,18 @@ function hud(now){
           ?0
           :(now-t0)/1000
     ).toFixed(1)+'s',
+
     fs,
     fs*4.2,
     fs*1.1
   );
 
-
   t(
-    Math.round(
-      me.v/50
-    )+
-    ' km/h',
+    Math.round(me.v/50)+' km/h',
     fs,
     H-fs*2.8,
     fs*1.6
   );
-
 
   cx.fillStyle='#0008';
 
@@ -4271,13 +3977,13 @@ function hud(now){
     fs*.7
   );
 
-
   const ng=
     cx.createLinearGradient(
-      fs,0,
-      fs*11,0
+      fs,
+      0,
+      fs*11,
+      0
     );
-
 
   ng.addColorStop(
     0,
@@ -4289,7 +3995,6 @@ function hud(now){
     '#a78bfa'
   );
 
-
   cx.fillStyle=ng;
 
   cx.fillRect(
@@ -4299,15 +4004,13 @@ function hud(now){
     fs*.7
   );
 
-
   const ms=
-    Math.min(W,H)*.28;
+    Math.min(W,H)*.28,
 
-  const mx=
-    W-ms-fs;
+  mx=
+    W-ms-fs,
 
-  const my=fs;
-
+  my=fs;
 
   cx.fillStyle='#0b1220aa';
 
@@ -4323,7 +4026,6 @@ function hud(now){
 
   cx.fill();
 
-
   cx.drawImage(
     T.img,
     mx,
@@ -4332,12 +4034,7 @@ function hud(now){
     ms
   );
 
-
-  const dot=(
-    r,
-    c,
-    z
-  )=>{
+  const dot=(r,c,z)=>{
 
     const q=
       T.mp[
@@ -4349,28 +4046,29 @@ function hud(now){
         )
       ];
 
-
     cx.fillStyle=c;
 
     cx.beginPath();
 
     cx.arc(
       mx+
-      ms*
-      (.05+.9*q[0]),
+      ms*(
+        .05+.9*q[0]
+      ),
 
       my+
-      ms*
-      (.05+.9*q[1]),
+      ms*(
+        .05+.9*q[1]
+      ),
 
       z,
       0,
       7
     );
 
-    cx.fill()
-  };
+    cx.fill();
 
+  };
 
   Object.values(R)
     .forEach(
@@ -4382,20 +4080,17 @@ function hud(now){
         )
     );
 
-
   dot(
     me,
     '#fff',
     ms*.045
   );
 
-
   dot(
     me,
     COLS[me.col],
     ms*.03
   );
-
 
   if(zb>now){
 
@@ -4413,9 +4108,9 @@ function hud(now){
       'center'
     );
 
-    cx.globalAlpha=1
-  }
+    cx.globalAlpha=1;
 
+  }
 
   if(S=='count')
 
@@ -4439,14 +4134,16 @@ function hud(now){
       fs*6,
       'center',
       '#4ade80'
-    )
+    );
+
 }
 
 
-// ---- loop ----
+/* ================================
+   GAME LOOP
+================================ */
 
 let last=0;
-
 
 function loop(ts){
 
@@ -4458,12 +4155,10 @@ function loop(ts){
       (ts-last)/1000||0
     );
 
-
   last=ts;
 
   const now=
     performance.now();
-
 
   rt=now;
 
@@ -4484,15 +4179,18 @@ function loop(ts){
     me.v=5000;
 
     me.x=
-      Math.sin(ts/2000)*.4;
+      Math.sin(
+        ts/2000
+      )*.4;
 
     me.l=0;
 
     skyX+=
       seg(me.d).c*
-      dt*40
-  }
+      dt*
+      40;
 
+  }
 
   else{
 
@@ -4503,10 +4201,9 @@ function loop(ts){
 
       S='race';
 
-      goT=
-        now+1000
-    }
+      goT=now+1000;
 
+    }
 
     if(
       S=='race' ||
@@ -4514,16 +4211,22 @@ function loop(ts){
     ){
 
       const s=
-        seg(me.d+PZ);
+        seg(
+          me.d+PZ
+        ),
 
-      const sp=
-        me.v/MAXV;
+      sp=
+        me.v/MAXV,
 
-      const st=
-        (K.r?1:0)-
-        (K.l?1:0);
+      st=
+        (
+          K.r?1:0
+        )-
+        (
+          K.l?1:0
+        ),
 
-      const gas=
+      gas=
         K.u&&!meFin;
 
       boost=
@@ -4533,24 +4236,25 @@ function loop(ts){
         me.v>1500&&
         gas;
 
-
       const dx=
-        dt*2*sp;
-
+        dt*
+        2*
+        sp;
 
       me.x+=
         st*dx-
-        dx*sp*
+        dx*
+        sp*
         s.c*.3;
 
-
       me.l+=
-        (st-me.l)*
+        (
+          st-me.l
+        )*
         Math.min(
           1,
           dt*8
         );
-
 
       if(gas)
 
@@ -4559,7 +4263,8 @@ function loop(ts){
             boost
               ?MAXV/2
               :MAXV/4.5
-          )*dt;
+          )*
+          dt;
 
       else if(K.d)
 
@@ -4577,12 +4282,10 @@ function loop(ts){
               :1
           );
 
-
       const cap=
         boost
           ?MAXV*1.3
           :MAXV;
-
 
       if(me.v>cap)
 
@@ -4593,7 +4296,6 @@ function loop(ts){
             MAXV*dt*.5
           );
 
-
       if(
         Math.abs(me.x)>1.05 &&
         me.v>MAXV/4
@@ -4601,7 +4303,6 @@ function loop(ts){
 
         me.v-=
           MAXV/2*dt;
-
 
       me.n=
         boost
@@ -4614,7 +4315,6 @@ function loop(ts){
             me.n+.08*dt
           );
 
-
       me.x=
         Math.max(
           -2.5,
@@ -4624,17 +4324,14 @@ function loop(ts){
           )
         );
 
-
       me.v=
         Math.max(
           0,
           me.v
         );
 
-
       me.d+=
         me.v*dt;
-
 
       skyX+=
         s.c*
@@ -4642,16 +4339,12 @@ function loop(ts){
         dt*
         300;
 
-
       for(
         const id in R
       ){
 
-        const r=R[id];
-
-        const dz=
-          r.d-me.d;
-
+        const r=R[id],
+        dz=r.d-me.d;
 
         if(
           dz>0 &&
@@ -4667,17 +4360,17 @@ function loop(ts){
               r.v*.95+500
             );
 
-
           me.x+=
             (
               me.x>=r.x
                 ?1
                 :-1
             )*
-            dt*.9
-        }
-      }
+            dt*.9;
 
+        }
+
+      }
 
       if(
         !meFin &&
@@ -4694,7 +4387,6 @@ function loop(ts){
           tm
         );
 
-
         if(
           !host &&
           !solo &&
@@ -4707,14 +4399,15 @@ function loop(ts){
             time:tm
           });
 
-
         S='done';
 
-        resUI(true)
+        resUI(true);
+
       }
 
-
-      if(s.z!=lz){
+      if(
+        s.z!=lz
+      ){
 
         lz=s.z;
 
@@ -4724,8 +4417,10 @@ function loop(ts){
           ].n;
 
         zb=
-          now+3000
+          now+3000;
+
       }
+
     }
 
 
@@ -4735,7 +4430,6 @@ function loop(ts){
 
       const r=R[id];
 
-
       if(r.bot){
 
         if(
@@ -4744,13 +4438,8 @@ function loop(ts){
         )
           continue;
 
-
-        const s=
-          seg(r.d);
-
-        const fd=
-          r.d>=T.FD;
-
+        const s=seg(r.d),
+        fd=r.d>=T.FD;
 
         r.v+=
           (
@@ -4764,16 +4453,12 @@ function loop(ts){
               1-
               Math.min(
                 .35,
-                Math.abs(
-                  s.c
-                )*.05
+                Math.abs(s.c)*.05
               )
             )-
             r.v
           )*
-          dt*
-          .7;
-
+          dt*.7;
 
         if(
           r.d>
@@ -4781,17 +4466,15 @@ function loop(ts){
         )
           r.v=0;
 
-
         r.d+=
           r.v*dt;
-
 
         r.x+=
           (
             r.ln-r.x
           )*
-          dt*1.5;
-
+          dt*
+          1.5;
 
         if(
           Math.random()<
@@ -4802,47 +4485,50 @@ function loop(ts){
             1.4-
             .7;
 
-
         r.l=
           r.ln-r.x;
-
 
         if(fd)
 
           fin(
             id,
             (now-t0)/1000
-          )
-      }
+          );
 
+      }
 
       else{
 
         const p=
           r.td+
           r.tv*
-          (now-r.tt)/1000;
+          (now-r.tt)/1000,
 
-
-        const e=
+        e=
           Math.min(
             1,
             dt*8
           );
 
-
         r.d+=
-          (p-r.d)*e;
+          (
+            p-r.d
+          )*e;
 
         r.x+=
-          (r.tx-r.x)*e;
+          (
+            r.tx-r.x
+          )*e;
 
         r.l+=
-          (r.tl-r.l)*e;
+          (
+            r.tl-r.l
+          )*e;
 
-        r.v=
-          r.tv
+        r.v=r.tv;
+
       }
+
     }
 
 
@@ -4856,14 +4542,12 @@ function loop(ts){
 
       ns=now;
 
-
       const m=[
         Math.round(me.d),
         +me.x.toFixed(2),
         Math.round(me.v),
         +me.l.toFixed(2)
       ];
-
 
       if(host)
 
@@ -4887,7 +4571,6 @@ function loop(ts){
           ]
         });
 
-
       else if(
         !solo &&
         hc &&
@@ -4900,9 +4583,9 @@ function loop(ts){
           x:m[1],
           v:m[2],
           l:m[3]
-        })
-    }
+        });
 
+    }
 
     if(
       S=='done' &&
@@ -4911,7 +4594,8 @@ function loop(ts){
         (now-dt*1000)/500
       )
     )
-      resUI()
+      resUI();
+
   }
 
 
@@ -4924,27 +4608,24 @@ function loop(ts){
       dt*4
     );
 
-
   camD=
     1/
     Math.tan(
       (
         100+
         bf*14
-      )/2*
+      )/
+      2*
       Math.PI/180
     );
 
-
-  PZ=
-    CH*camD;
-
+  PZ=CH*camD;
 
   draw(boost);
 
-  hud(now)
-}
+  hud(now);
 
+}
 
 requestAnimationFrame(loop);
 
