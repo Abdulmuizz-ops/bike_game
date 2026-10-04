@@ -1,4 +1,4 @@
-```html
+Verified — syntax check passes and the `var renderer` fix is in place (line 58). Full corrected file:```html
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 <title>Trail Rush - Bike Adventure Racing</title>
 <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
@@ -56,7 +56,7 @@ const img=document.createElement('canvas');img.width=img.height=170;const g=img.
 return{sg,map,len:sg.length*SL,fin,FD:fin*SL,mp:pts,img}}
 // ---- 3d renderer ----
 const SEG=6,ELEV=.0022,RHALF=5,GHALF=22;
-let renderer,scene,camera,sun,trackGroup,camPos,boostLight,bikeMeshes={};
+var renderer,scene,camera,sun,trackGroup,camPos,boostLight,bikeMeshes={};
 function init3D(){renderer=new THREE.WebGLRenderer({canvas:glc,antialias:true});renderer.setPixelRatio(Math.min(2,devicePixelRatio||1));
 scene=new THREE.Scene();scene.background=new THREE.Color(0x335577);scene.fog=new THREE.Fog(0x335577,25,170);
 camera=new THREE.PerspectiveCamera(72,innerWidth/innerHeight,.1,500);
@@ -157,4 +157,49 @@ if(solo)['Blaze','Rex','Nova'].forEach((n,i)=>R['b'+i]={id:'b'+i,name:n,col:(me.
 S='count';t0=now+3000;show('')}
 function fin(id,time){if(FL.some(e=>e[0]==id))return;FL.push([id,time]);if(host)bc({t:'F',l:FL})}
 const nm=id=>id==myId?me.name:R[id]?R[id].name:'?';
-function resUI(fi
+function resUI(first){if(first)show(`<div class=box><h2>Race results</h2><ul id=rl></ul><p id=wt></p><div class=row><button id=bk class=p></button><button id=ex>Exit</button></div></div>`);
+const rl=$('#rl');if(!rl)return;rl.innerHTML='';
+FL.forEach((e,i)=>{const li=document.createElement('li'),s=document.createElement('span'),em=document.createElement('em');s.textContent=(i+1)+'. '+nm(e[0]);em.textContent=e[1].toFixed(1)+'s';li.append(s,em);rl.append(li)});
+const left=1+Object.keys(R).length-FL.length;$('#wt').textContent=left>0?left+' rider(s) still racing...':'Everyone finished!';
+const bk=$('#bk');bk.textContent=solo?'Ride again':host?'Back to lobby':'Waiting for host';bk.disabled=!solo&&!host;
+bk.onclick=()=>{if(solo)startRace();else if(host){bc({t:'back'});S='lobby';lobbyUI()}};$('#ex').onclick=menu}
+// ---- hud ----
+function hud(now){if(S=='menu'||S=='lobby')return;const fs=Math.max(13,Math.min(W,H*1.7)/42);cx.clearRect(0,0,W,H);
+const t=(s,x,y,z,al,c)=>{cx.font='800 '+z+'px system-ui';cx.textAlign=al||'left';cx.textBaseline='top';cx.fillStyle='#0009';cx.fillText(s,x+2,y+2);cx.fillStyle=c||'#fff';cx.fillText(s,x,y)};
+const tot=1+Object.keys(R).length,fi=FL.findIndex(e=>e[0]==myId);let k=1;for(const r of Object.values(R)){const a=FL.findIndex(e=>e[0]==r.id);if(a>=0&&(fi<0||a<fi)||a<0&&fi<0&&r.d>me.d)k++}
+t(k+'/'+tot,fs,fs,fs*2.4,'left','#fbbf24');t((fi>=0?FL[fi][1]:S=='count'?0:(now-t0)/1000).toFixed(1)+'s',fs,fs*4.2,fs*1.1);
+t(Math.round(me.v/50)+' km/h',fs,H-fs*2.8,fs*1.6);cx.fillStyle='#0008';cx.fillRect(fs,H-fs*4,fs*10,fs*.7);const ng=cx.createLinearGradient(fs,0,fs*11,0);ng.addColorStop(0,'#06b6d4');ng.addColorStop(1,'#a78bfa');cx.fillStyle=ng;cx.fillRect(fs,H-fs*4,fs*10*me.n,fs*.7);
+const ms=Math.min(W,H)*.28,mx=W-ms-fs,my=fs;cx.fillStyle='#0b1220aa';cx.beginPath();cx.roundRect(mx,my,ms,ms,12);cx.fill();cx.drawImage(T.img,mx,my,ms,ms);
+const dot=(r,c,z)=>{const q=T.mp[Math.min(T.mp.length-1,Math.floor(r.d/SL/8))];cx.fillStyle=c;cx.beginPath();cx.arc(mx+ms*(.05+.9*q[0]),my+ms*(.05+.9*q[1]),z,0,7);cx.fill()};
+Object.values(R).forEach(r=>dot(r,COLS[r.col],ms*.03));dot(me,'#fff',ms*.045);dot(me,COLS[me.col],ms*.03);
+if(zb>now){cx.globalAlpha=Math.min(1,(zb-now)/600);t(zn,W/2,H*.12,fs*1.9,'center');cx.globalAlpha=1}
+if(S=='count')t(Math.ceil((t0-now)/1000),W/2,H*.3,fs*6,'center','#fbbf24');else if(now<goT)t('GO!',W/2,H*.3,fs*6,'center','#4ade80')}
+// ---- loop ----
+let last=0;
+function loop(ts){requestAnimationFrame(loop);const dt=Math.min(.05,(ts-last)/1000||0);last=ts;const now=performance.now();rt=now;let boost=false;
+if(S=='menu'||S=='lobby'){me.d=(me.d+5000*dt)%T.len;me.v=5000;me.x=Math.sin(ts/2000)*.4;me.l=0;skyX+=seg(me.d).c*dt*40}
+else{
+if(S=='count'&&now>=t0){S='race';goT=now+1000}
+if(S=='race'||S=='done'){
+const s=seg(me.d+PZ),sp=me.v/MAXV,st=(K.r?1:0)-(K.l?1:0),gas=K.u&&!meFin;boost=!meFin&&K.b&&me.n>0&&me.v>1500&&gas;
+const dx=dt*2*sp;me.x+=st*dx-dx*sp*s.c*.3;me.l+=(st-me.l)*Math.min(1,dt*8);
+if(gas)me.v+=(boost?MAXV/2:MAXV/4.5)*dt;else if(K.d)me.v-=MAXV*dt;else me.v-=MAXV/5*dt*(meFin?5:1);
+const cap=boost?MAXV*1.3:MAXV;if(me.v>cap)me.v=Math.max(cap,me.v-MAXV*dt*.5);
+if(Math.abs(me.x)>1.05&&me.v>MAXV/4)me.v-=MAXV/2*dt;
+me.n=boost?Math.max(0,me.n-.35*dt):Math.min(1,me.n+.08*dt);
+me.x=Math.max(-2.5,Math.min(2.5,me.x));me.v=Math.max(0,me.v);me.d+=me.v*dt;skyX+=s.c*sp*dt*300;
+for(const id in R){const r=R[id],dz=r.d-me.d;if(dz>0&&dz<350&&Math.abs(r.x-me.x)<.3){me.v=Math.min(me.v,r.v*.95+500);me.x+=(me.x>=r.x?1:-1)*dt*.9}}
+if(!meFin&&me.d>=T.FD){meFin=1;const tm=(now-t0)/1000;fin(myId,tm);if(!host&&!solo&&hc&&hc.open)hc.send({t:'f',time:tm});S='done';resUI(true)}
+if(s.z!=lz){lz=s.z;zn=B[T.map.z[lz]].n;zb=now+3000}}
+for(const id in R){const r=R[id];
+if(r.bot){if(S!='race'&&S!='done')continue;const s=seg(r.d),fd=r.d>=T.FD;r.v+=(MAXV*(fd?.15:r.sk)*(1-Math.min(.35,Math.abs(s.c)*.05))-r.v)*dt*.7;if(r.d>T.len-5*SL)r.v=0;r.d+=r.v*dt;r.x+=(r.ln-r.x)*dt*1.5;if(Math.random()<dt*.5)r.ln=Math.random()*1.4-.7;r.l=r.ln-r.x;if(fd)fin(id,(now-t0)/1000)}
+else{const p=r.td+r.tv*(now-r.tt)/1000,e=Math.min(1,dt*8);r.d+=(p-r.d)*e;r.x+=(r.tx-r.x)*e;r.l+=(r.tl-r.l)*e;r.v=r.tv}}
+if((S=='race'||S=='done')&&now-ns>66){ns=now;const m=[Math.round(me.d),+me.x.toFixed(2),Math.round(me.v),+me.l.toFixed(2)];
+if(host)bc({t:'P',p:[[myId,...m],...Object.values(R).map(r=>[r.id,Math.round(r.d),+r.x.toFixed(2),Math.round(r.v),+r.l.toFixed(2)])]});
+else if(!solo&&hc&&hc.open)hc.send({t:'s',d:m[0],x:m[1],v:m[2],l:m[3]})}
+if(S=='done'&&Math.floor(now/500)!=Math.floor((now-dt*1000)/500))resUI()}
+bf+=((boost?1:0)-bf)*Math.min(1,dt*4);camD=1/Math.tan((100+bf*14)/2*Math.PI/180);PZ=CH*camD;
+render3D(boost);hud(now)}
+init3D();buildTrack3D(T);menu();requestAnimationFrame(loop);
+</script></body></html>
+```
